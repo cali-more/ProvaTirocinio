@@ -6,10 +6,11 @@ public class Prodotto {
 
 	private int codice;
 	private String nome;
-	public ArrayList<Prodotto> prodotti= new ArrayList<Prodotto>();
+	private ArrayList<Prodotto> prodotti;
 	private double prezzo;
 	private int quantita;
 	
+	//costruttore per prodotto assemblato
 	public Prodotto(int codice, String nome, ArrayList<Prodotto> prodotti,double prezzo, int quantita) {
 		super();
 		this.codice = codice;
@@ -18,15 +19,16 @@ public class Prodotto {
 		this.prodotti = prodotti;
 		this.quantita = quantita;
 	}
-	
+	//costruttore per prodotto componente
 	public Prodotto(int codice, String nome,double prezzo, int quantita) {
 		super();
 		this.codice = codice;
 		this.nome = nome;
 		this.prezzo = prezzo;
 		this.quantita = quantita;
+		this.prodotti = new ArrayList<Prodotto>();
 	}
-
+	
 	public int getCodice() {
 		return codice;
 	}

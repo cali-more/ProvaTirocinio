@@ -6,7 +6,7 @@ public class Fornitore {
 	private int codice;
 	private String nome;
 	private String indirizzo;
-	private ArrayList<Prodotto> listino= new ArrayList<Prodotto>();
+	private ArrayList<Prodotto> listino;
 	
 	public Fornitore(int codice, String nome, String indirizzo,
 			ArrayList<Prodotto> listino) {
@@ -15,9 +15,6 @@ public class Fornitore {
 		this.nome = nome;
 		this.indirizzo = indirizzo;
 		this.listino = listino;
-	}
-	
-	public Fornitore(){
 	}
 
 	public int getcodice() {

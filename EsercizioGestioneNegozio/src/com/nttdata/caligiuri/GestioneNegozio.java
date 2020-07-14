@@ -6,6 +6,7 @@ import java.util.List;
 public class GestioneNegozio {
 
 	private ArrayList<Prodotto> inventario = new ArrayList<Prodotto>();
+	private ArrayList<Prodotto> listino = new ArrayList<Prodotto>();
 
 	public boolean inserisciProdottoInInventario(Prodotto p) {
 		if (!cercaProdotto(p.getCodice())) {
@@ -48,8 +49,8 @@ public class GestioneNegozio {
 		for (Prodotto p : inventario) {
 			if (p.getCodice() == (codice)) {
 				if (isAssemblato(p)) {
-					for (int i = 0; i < p.prodotti.size(); i++) {
-						if (p.prodotti.get(i).getQuantita() == 0)
+					for (int i = 0; i < p.getProdotti().size(); i++) {
+						if (p.getProdotti().get(i).getQuantita() == 0)
 							return false;
 					}
 					return true;
@@ -63,13 +64,20 @@ public class GestioneNegozio {
 		}
 		return false;
 	}
-	
+	//da completare
 	public List ordineMinimoCosto (Prodotto p) {
 		List fornitori = new ArrayList ();
 		if (!isAssemblato(p)) {
 			System.out.println("null");
 		return null;
-		}else 
+		} else 
+			
+			//for(Fornitore f: )
+			for (int i=0; i<p.getProdotti().size(); i++) {
+				p.getProdotti().get(i).getCodice();
+			}
+		 
+	System.out.println("Lista fornitori");
 			return fornitori;
 			
 	}

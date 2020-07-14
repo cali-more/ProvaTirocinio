@@ -17,9 +17,9 @@ public class MainNegozioInformatico {
 		ArrayList<Prodotto> prodotti1= new ArrayList<Prodotto>();
 		
 		// mi creo i prodotti per fare i test
-		Prodotto p1= new Prodotto(01, "Mouse", 10.00, 0);
+		Prodotto p1= new Prodotto(01, "Mouse", 10.00, 3);
 		Prodotto p2= new Prodotto(02, "Tastiera", 10.00, 1);
-		Prodotto p3= new Prodotto(03, "Mouse", 10.00, 2);
+		Prodotto p3= new Prodotto(03, "Mouse", 10.00, 0);
 		Prodotto p4= new Prodotto(04, "Mouse", 10.00, 2);
 		
 		//popolo l'arrayList prodotti1
@@ -58,7 +58,8 @@ public class MainNegozioInformatico {
 		//creo i fornitori
 		Fornitore f1=new Fornitore(001,"Mario","via uno",prodotti);
 		Fornitore f2=new Fornitore(002,"Maria","via due",prodotti1);
-			
+		
+		
 		//creo un articolo
 	    Articolo a1= new Articolo(01, 10);
 	    Articolo a2= new Articolo(02, 15);

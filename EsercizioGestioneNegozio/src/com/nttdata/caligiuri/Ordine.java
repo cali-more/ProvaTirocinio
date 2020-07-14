@@ -3,8 +3,8 @@ package com.nttdata.caligiuri;
 import java.util.ArrayList;
 
 public class Ordine {
-	private Fornitore fornitore= new Fornitore();
-	private ArrayList<Articolo> elencoArticoli= new ArrayList<Articolo>();
+	private Fornitore fornitore;
+	private ArrayList<Articolo> elencoArticoli;
 	
 	public Ordine(Fornitore fornitore, ArrayList<Articolo> elencoArticoli) {
 		super();
