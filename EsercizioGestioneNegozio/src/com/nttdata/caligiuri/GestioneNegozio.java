@@ -1,6 +1,7 @@
 package com.nttdata.caligiuri;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GestioneNegozio {
 
@@ -8,10 +9,10 @@ public class GestioneNegozio {
 
 	public boolean inserisciProdottoInInventario(Prodotto p) {
 		if (!cercaProdotto(p.getCodice())) {
-			inventario.add(p); //aggiunge il prodotto
+			inventario.add(p); 
 			return true;
 		} else
-		return false; //prodotto esistente
+		return false; 
 	}
 
 	// metodo di supporto per cercare un prodotto all'interno dell'inventario
@@ -61,5 +62,15 @@ public class GestioneNegozio {
 			}
 		}
 		return false;
+	}
+	
+	public List ordineMinimoCosto (Prodotto p) {
+		List fornitori = new ArrayList ();
+		if (!isAssemblato(p)) {
+			System.out.println("null");
+		return null;
+		}else 
+			return fornitori;
+			
 	}
 }

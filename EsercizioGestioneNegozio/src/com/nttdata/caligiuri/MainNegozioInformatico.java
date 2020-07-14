@@ -96,5 +96,8 @@ public class MainNegozioInformatico {
  	 System.out.println("true");
      else
     	 System.out.println("false");
+    
+    
+    gn.ordineMinimoCosto(p5);
 	}
 }
