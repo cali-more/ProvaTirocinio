@@ -1,25 +1,22 @@
 package com.nttdata.caligiuri;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Scanner;
 
 public class MainNegozioInformatico {
 	
 	public static void main(String[] args) {
 		
-		Scanner s=new Scanner(System.in);
 		GestioneNegozio gn=new GestioneNegozio();
-		ArrayList<Prodotto> prodotti= new ArrayList<Prodotto>();
-		ArrayList<Articolo> articoli= new ArrayList<Articolo>();
-		ArrayList<Articolo> articoli1= new ArrayList<Articolo>();
-		ArrayList<Prodotto> prodotti1= new ArrayList<Prodotto>();
+		ArrayList<Prodotto> prodotti = new ArrayList<Prodotto>();
+		ArrayList<Articolo> articoli = new ArrayList<Articolo>();
+		ArrayList<Articolo> articoli1 = new ArrayList<Articolo>();
+		ArrayList<Prodotto> prodotti1 = new ArrayList<Prodotto>();
+		ArrayList<Fornitore> fornitori = new ArrayList<Fornitore>();
 		
 		// mi creo i prodotti per fare i test
 		Prodotto p1= new Prodotto(01, "Mouse", 10.00, 3);
 		Prodotto p2= new Prodotto(02, "Tastiera", 10.00, 1);
-		Prodotto p3= new Prodotto(03, "Mouse", 10.00, 0);
+		Prodotto p3= new Prodotto(01, "Mouse", 05.00, 5);
 		Prodotto p4= new Prodotto(04, "Mouse", 10.00, 2);
 		
 		//popolo l'arrayList prodotti1
@@ -54,11 +51,13 @@ public class MainNegozioInformatico {
 		//popolo l'arrayList prodotti
 		prodotti.add(p1);
 		prodotti.add(p2);
+		prodotti.add(p3);
 		
 		//creo i fornitori
 		Fornitore f1=new Fornitore(001,"Mario","via uno",prodotti);
 		Fornitore f2=new Fornitore(002,"Maria","via due",prodotti1);
-		
+		fornitori.add(f2);
+		fornitori.add(f1);
 		
 		//creo un articolo
 	    Articolo a1= new Articolo(01, 10);
@@ -72,6 +71,7 @@ public class MainNegozioInformatico {
 		Ordine o1= new Ordine(f1, articoli);
 		System.out.println("Prima  :"+articoli.get(0).getQuantitaProdotto());
 		System.out.println("Prima  :"+articoli.get(1).getQuantitaProdotto());
+		
 		gn.aggiornaInventario(o1); //testo il la funzionalità per l'ordine o1
 		System.out.println("Dopo  :"+articoli.get(0).getQuantitaProdotto());
 		System.out.println("Dopo  :"+articoli.get(1).getQuantitaProdotto());
@@ -98,7 +98,10 @@ public class MainNegozioInformatico {
      else
     	 System.out.println("false");
     
+    Negozio n = new Negozio(prodotti1, fornitori);
     
-    gn.ordineMinimoCosto(p5);
+    gn.aggiungiFornitori(n);
+    
+    System.out.println(gn.ordineMinimoCosto(p5));
 	}
 }
