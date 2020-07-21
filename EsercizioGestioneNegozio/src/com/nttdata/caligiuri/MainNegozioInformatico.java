@@ -13,15 +13,20 @@ public class MainNegozioInformatico {
 		ArrayList<Prodotto> prodotti1 = new ArrayList<Prodotto>();
 		ArrayList<Fornitore> fornitori = new ArrayList<Fornitore>();
 		
-		// mi creo i prodotti per fare i test
-		Prodotto p1= new Prodotto(01, "Mouse", 10.00, 3);
-		Prodotto p2= new Prodotto(02, "Tastiera", 10.00, 1);
-		Prodotto p3= new Prodotto(01, "Mouse", 05.00, 5);
-		Prodotto p4= new Prodotto(04, "Mouse", 10.00, 2);
+		//creo i prodotti per fare i test
+		Prodotto p1= new Prodotto(01, "Mouse", 11.00, 3);
+		Prodotto p2= new Prodotto(02, "Tastiera", 25.00, 1);
+		Prodotto p3= new Prodotto(03, "HDD", 5.00, 5);
+		
+		Prodotto p4= new Prodotto(01, "Mouse", 05.00, 2);
+		Prodotto p6= new Prodotto(02, "Tastiera", 13.00, 2);
+		Prodotto p7= new Prodotto(03, "HDD", 10.00, 2);
 		
 		//popolo l'arrayList prodotti1
-		prodotti1.add(p1);
-		prodotti1.add(p2);
+		prodotti1.add(p4);
+		prodotti1.add(p6);
+		prodotti1.add(p7);
+		
 		
 		//creo un prodotto assemblato
 		Prodotto p5= new Prodotto(05, "Notebook", prodotti1, 10.00, 2);
@@ -60,28 +65,32 @@ public class MainNegozioInformatico {
 		fornitori.add(f1);
 		
 		//creo un articolo
-	    Articolo a1= new Articolo(01, 10);
-	    Articolo a2= new Articolo(02, 15);
+	    Articolo a1= new Articolo(02, 10);
+	    Articolo a2= new Articolo(05, 15);
+	    Articolo a3= new Articolo(01, 20);
 	    
 	    //popolo l'arrayList articoli
 	    articoli.add(a1);
 	    articoli.add(a2);
+	    articoli.add(a3);
 
 		//creo un ordine
 		Ordine o1= new Ordine(f1, articoli);
 		System.out.println("Prima  :"+articoli.get(0).getQuantitaProdotto());
 		System.out.println("Prima  :"+articoli.get(1).getQuantitaProdotto());
+		System.out.println("Prima  :"+articoli.get(2).getQuantitaProdotto());
 		
 		gn.aggiornaInventario(o1); //testo il la funzionalità per l'ordine o1
 		System.out.println("Dopo  :"+articoli.get(0).getQuantitaProdotto());
 		System.out.println("Dopo  :"+articoli.get(1).getQuantitaProdotto());
+		System.out.println("Dopo  :"+articoli.get(2).getQuantitaProdotto());
 
 	//testo il la funzionalità per l'ordine o2
 		articoli1.add(a1);
 		Ordine o2= new Ordine(f1, articoli1);
-		System.out.println("Prima  :"+articoli.get(0).getQuantitaProdotto());
+		//System.out.println("Prima  :"+articoli.get(0).getQuantitaProdotto());
 		gn.aggiornaInventario(o2);
-		System.out.println("Dopo  :"+articoli.get(0).getQuantitaProdotto());
+		//System.out.println("Dopo  :"+articoli.get(0).getQuantitaProdotto());
 				
    //testo il metodo di supporto per il prodotto p3
 		 System.out.println("ass/NONass "+gn.isAssemblato(p3));
@@ -102,6 +111,8 @@ public class MainNegozioInformatico {
     
     gn.aggiungiFornitori(n);
     
-    System.out.println(gn.ordineMinimoCosto(p5));
+    System.out.println("Output ordineMinimoCosto: "+ gn.ordineMinimoCosto(p5));
+    
+    System.out.println("Output ordineMinimoCostoVariante: "+ gn.ordineMinimoCostoVariante(p5));
 	}
 }
