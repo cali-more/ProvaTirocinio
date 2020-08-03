@@ -6,7 +6,7 @@ public class Studente extends Persona {
 
 	private String matricola;
 	private ArrayList <Corso> pianoDiStudi;
-	private ArrayList <Esame> esami ;
+	private ArrayList <Esame> esami;
 
 	public Studente(String nome, String cognome, String codiceFiscale, String matricola) {
 		super(nome, cognome, codiceFiscale);
@@ -40,7 +40,7 @@ public class Studente extends Persona {
 	}
 
 	public void addEsame(Esame esame) {
-		if(cercaEsame(esame.getNome()))
+		if(cercaEsame(esame.getNome()) && esame.getVoto() >=18 && esame.getVoto() <=30)
 			esami.add(esame);
 	}
 
@@ -55,13 +55,15 @@ public class Studente extends Persona {
 
 	@Override
 	public String toString() {
-		return "Studente [matricola=" + matricola + ", pianoDiStudi=" + pianoDiStudi + ", esami=" + esami + "]";
+		return "Studente [matricola=" + matricola + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((esami == null) ? 0 : esami.hashCode());
+		result = prime * result + ((matricola == null) ? 0 : matricola.hashCode());
 		result = prime * result + ((pianoDiStudi == null) ? 0 : pianoDiStudi.hashCode());
 		return result;
 	}
@@ -75,6 +77,16 @@ public class Studente extends Persona {
 		if (getClass() != obj.getClass())
 			return false;
 		Studente other = (Studente) obj;
+		if (esami == null) {
+			if (other.esami != null)
+				return false;
+		} else if (!esami.equals(other.esami))
+			return false;
+		if (matricola == null) {
+			if (other.matricola != null)
+				return false;
+		} else if (!matricola.equals(other.matricola))
+			return false;
 		if (pianoDiStudi == null) {
 			if (other.pianoDiStudi != null)
 				return false;

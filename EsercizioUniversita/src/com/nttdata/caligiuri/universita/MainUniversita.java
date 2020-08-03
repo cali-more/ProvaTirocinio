@@ -34,8 +34,6 @@ public class MainUniversita {
 		corso.add(programmazione);	
 		corso.add(egi);
 
-		ArrayList <Corso> corso1 = new ArrayList <Corso>();
-		corso1.add(baseDiDati);
 
 		//aggiunta corso a studente
 		s1.setPianoDiStudi(corso);
@@ -44,24 +42,23 @@ public class MainUniversita {
 
 		//Esami
 		Esame e1 = new Esame("Marketing", 28, new Date(), marketing, ferrari);
-//		s1.addEsame(e1);
+		s1.addEsame(e1);
 		
-		Esame e2 = new Esame ("Matematica", 18, new Date(), matematica, russo);
+		Esame e2 = new Esame ("Matematica", 20, new Date(), matematica, russo);
 		s1.addEsame(e2);
 		
 		Esame e3 = new Esame("Base Di Dati", 25, new Date(), baseDiDati, terracina);
-//		s1.addEsame(e3);
+		s1.addEsame(e3);
 		
 		Esame e4 = new Esame ("Programmazione Avanzata", 25, new Date(), programmazione, dodaro);
 		s1.addEsame(e4);
 		
-		Esame e5 = new Esame ("Egi", 18, new Date(), egi, cariola);
+		Esame e5 = new Esame ("Egi", 30, new Date(), egi, cariola);
 		s1.addEsame(e5);
+		
 		
 		Esame es1 = new Esame("Marketing", 26, new Date(), marketing, ferrari);
 		s2.addEsame(es1);
-//		s2.addEsame(es1);
-
 		
 		Esame es2 = new Esame ("Matematica", 30, new Date(), matematica, russo);
 		s2.addEsame(es2);
@@ -71,30 +68,26 @@ public class MainUniversita {
 		
 		Esame es4 = new Esame ("Programmazione Avanzata", 30, new Date(), programmazione, dodaro);
 		s2.addEsame(es4);
+		s3.addEsame(es4);
 		
-		//		Esame es5 = new Esame ("Egi", 0, new Date(), egi, cariola);
-		//		esami.add(e1);
-		//		esami.add(e2);
+		Esame es5 = new Esame ("Egi", 25, new Date(), egi, cariola);
+//		s2.addEsame(es5);		
 	
-		
 		//aggiungo Studenti ad Unical
 		gunical.aggiungiStudente(s1);
 		gunical.aggiungiStudente(s2);
 		gunical.aggiungiStudente(s3);
 
 		gunical.aggiungiCorso();
+		System.out.println("CFU maturati da ogni studente: " + gunical.studentiCfuMaturati());
 		System.out.println("Media di ogni studente: " + gunical.mediaStudente());
 		System.out.println("Media Pesata di ogni studente: " + gunical.mediaStudentePesata());
-		System.out.println("CFU maturati da ogni studente: " + gunical.studentiCfuMaturati());
-		System.out.println("Elenco studenti con PdS completo: " + gunical.studentiTuttiEsamiSostenuti());
+		System.out.println("Elenco studenti con piano di studio completo: " + gunical.studentiTuttiEsamiSostenuti());
+		System.out.println("Per ogni corso studenti con i migliori voti: " + gunical.corsoStudentiMigliori());
 		System.out.println("Elenco corsi esami mai sostenuti: " + gunical.corsiEsamiMaiSostenuti());
 		System.out.println("Studenti a cui manca esattamente un solo esame: " + gunical.studentiUnicoEsameMancante());
-		System.out.println("Studenti corso voto migliore: " + gunical.corsoStudentiMigliori());
-		System.out.println("Docenti che erogano voti alti" + gunical.listaDocentiMediaAlta());
+		System.out.println("Docenti che erogano voti alti: " + gunical.listaDocentiMediaAlta());
 		System.out.println("Media di ogni corso: " + gunical.mediaCorso());
 		System.out.println("Corsi più semplici: " + gunical.corsiPiuSemplici());
-		
-		
-		
 	}
 }

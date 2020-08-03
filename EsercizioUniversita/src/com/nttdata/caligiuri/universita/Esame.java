@@ -51,33 +51,7 @@ public class Esame {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((corso == null) ? 0 : corso.hashCode());
-		result = prime * result + ((voto == null) ? 0 : voto.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Esame other = (Esame) obj;
-		if (corso == null) {
-			if (other.corso != null)
-				return false;
-		} else if (!corso.equals(other.corso))
-			return false;
-		if (voto == null) {
-			if (other.voto != null)
-				return false;
-		} else if (!voto.equals(other.voto))
-			return false;
-		return true;
+	public String toString() {
+		return "Esame [nome=" + nome + ", docente=" + docente + "]";
 	}
 }

@@ -7,8 +7,6 @@ public class Corso {
 	private Integer cfu;
 	private Docente docente;
 
-
-	
 	public Corso(String codice, String nome, Integer cfu, Docente docente) {
 		super();
 		this.codice = codice;
@@ -49,5 +47,8 @@ public class Corso {
 		this.docente = docente;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "Corso [nome=" + nome + "]";
+	}
 }

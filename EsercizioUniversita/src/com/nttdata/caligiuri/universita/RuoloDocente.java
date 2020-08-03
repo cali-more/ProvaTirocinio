@@ -6,7 +6,3 @@ public enum RuoloDocente {
 	RICERCATORE,
 	ORDINARIO
 	}
-
-
-
-

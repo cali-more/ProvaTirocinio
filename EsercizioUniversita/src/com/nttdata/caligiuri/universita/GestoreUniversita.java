@@ -1,5 +1,6 @@
 package com.nttdata.caligiuri.universita;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,8 @@ public class GestoreUniversita {
 	private ArrayList<Studente> studenti = new ArrayList<Studente>();
 	private ArrayList<Corso> corsi = new ArrayList<Corso>();
 
+	DecimalFormat format = new DecimalFormat("###,##");
+	
 	public void aggiungiStudente(Studente s) {
 		if (cercaStudente(s.getMatricola()))
 			studenti.add(s);
@@ -25,23 +28,24 @@ public class GestoreUniversita {
 	}
 
 	// 1. Per ogni studente il numero di CFU maturati
-	public ArrayList<String> studentiCfuMaturati() {
-		ArrayList<String> cfu = new ArrayList<String>();
+	public HashMap<Studente, Integer> studentiCfuMaturati () {
+		HashMap<Studente, Integer> mapCfuMaturati = new HashMap<>();
 		for (Studente s : studenti) {
 			int sommaCfu = 0;
-			for (int i=0; i<s.getEsami().size(); i++) {
-				for (int j=0; j<s.getPianoDiStudi().size(); j++)
-					if(s.getEsami().get(i).getNome().equals(s.getPianoDiStudi().get(j).getNome()))
-					sommaCfu += s.getPianoDiStudi().get(j).getCfu();
+			for (Corso c : corsi) {
+				for (int i=0; i<s.getEsami().size(); i++) {
+					if(s.getEsami().get(i).getNome().equals(c.getNome()))
+						sommaCfu += c.getCfu();
+				}
+			}
+			mapCfuMaturati.put(s,sommaCfu);
 		}
-			cfu.add("Matricola:" + s.getMatricola() + "  CFU:" + sommaCfu);
-		}
-		return cfu;
+		return mapCfuMaturati;
 	}
 
 	//non richiesta dalla traccia
-	public ArrayList<String> mediaStudente() {
-		ArrayList<String> media = new ArrayList<String>();
+	public HashMap<Studente, Double> mediaStudente() {
+		HashMap<Studente, Double> mapMedia = new HashMap<>();
 		for (Studente s : studenti) {
 			Double somma = 0.0;
 			Integer conta = 0;
@@ -50,44 +54,45 @@ public class GestoreUniversita {
 				conta++;
 			}
 			if (conta != 0)
-				media.add("Matricola:" + s.getMatricola() + " Media:" + (somma/conta));
+				mapMedia.put(s, somma/conta);
 			else
-				media.add("Matricola:" + s.getMatricola() + " Media:" + 0);
+				mapMedia.put(s, 0.0);
 		}
-		return media;
+		return mapMedia;
 	}
 
 	// 2. Per ogni studente la sua media pesata
-	public ArrayList<String> mediaStudentePesata() {
-		ArrayList<String> mediaPesata = new ArrayList<String>();
+	public HashMap<Studente, Double> mediaStudentePesata() {
+		HashMap<Studente, Double> mapMediaPesata = new HashMap<>();
 		for (Studente s : studenti) {
-			float numeratore = 0;
-			float denominatore = 0;
-			for (int i=0; i<s.getEsami().size(); i++) {
-				for (int j=0; j<s.getPianoDiStudi().size(); j++)
-					if(s.getEsami().get(i).getNome().equals(s.getPianoDiStudi().get(j).getNome())) {
-				numeratore += s.getEsami().get(i).getVoto() * s.getPianoDiStudi().get(j).getCfu();
-				denominatore += s.getPianoDiStudi().get(j).getCfu();
+			Double numeratore = 0.0;
+			Double denominatore = 0.0;
+			for (Corso c : corsi) {
+				for (int i=0; i<s.getEsami().size(); i++) {
+					if(s.getEsami().get(i).getNome().equals(c.getNome())) {
+						numeratore += s.getEsami().get(i).getVoto() * c.getCfu();
+						denominatore += c.getCfu();
 					}
+				}
+				if (denominatore != 0)
+					mapMediaPesata.put(s, Double.valueOf(format.format(numeratore/denominatore)));
+				else
+					mapMediaPesata.put(s, 0.0);
 			}
-			if (denominatore != 0)
-				mediaPesata.add("Matricola:" + s.getMatricola() + " Media:" + (numeratore/denominatore));
-			else
-				mediaPesata.add("Matricola:" + s.getMatricola() + " Media:" + 0);
 		}
-		return mediaPesata;
+		return mapMediaPesata;
 	}
 
 	// 3. Elenco Studenti che hanno sostenuto tutti gli esami del piano di studi
-	public ArrayList<String> studentiTuttiEsamiSostenuti() {
-		ArrayList<String> listaStudenti = new ArrayList<String>();
+	public ArrayList<Studente> studentiTuttiEsamiSostenuti() {
+		ArrayList<Studente> listaStudenti = new ArrayList<Studente>();
 		for (Studente s : studenti) {
 			if (s.getPianoDiStudi().size() == s.getEsami().size())
-				listaStudenti.add("Matricola:" + s.getMatricola());
+				listaStudenti.add(s);
 		}
 		return listaStudenti;
 	}
-	
+
 	// metodo di supporto per il 4° punto
 	public List<Corso> aggiungiCorso() {
 		for (Studente s : studenti) {
@@ -100,56 +105,57 @@ public class GestoreUniversita {
 	}
 
 	// 4. Per ogni corso gli studenti con i migliori voti
-	public List<String> corsoStudentiMigliori() {
+	public HashMap<Corso, ArrayList <Studente>> corsoStudentiMigliori() {
+		HashMap<Corso, ArrayList <Studente>> studentiMigliori = new HashMap<>();
 		int voto = 0;
-		List<String> studentiMigliori = new ArrayList<>();
-		List<String> matricola = new ArrayList<>();
+		ArrayList<Studente> studente; 
 		for (Corso c : corsi) {
 			voto = 0;
-			matricola.clear();
+			studente = new ArrayList<Studente>();
 			for (Studente s : studenti) {
 				for (int i=0; i<s.getEsami().size(); i++) {
 					if (s.getEsami().get(i).getCorso().getNome().equals(c.getNome()) && s.getEsami().get(i).getVoto() > voto) {
 						voto = s.getEsami().get(i).getVoto();
-						matricola.clear();
-						matricola.add(s.getMatricola());
+						studente.clear();
+						studente.add(s);
 					}
 					else if (s.getEsami().get(i).getCorso().getNome().equals(c.getNome()) && s.getEsami().get(i).getVoto() == voto) {
-						matricola.add(s.getMatricola());
+						studente.add(s);;
 					}
 				}
+
 			}
-			studentiMigliori.add(matricola+" "+c.getNome());
+			studentiMigliori.put(c, studente);
 		}
 		return studentiMigliori;
 	}
 
 	// 1° supporto per il punto 5
-	public List<String> aggiungiDc() {
-		ArrayList<String> docenti = new ArrayList<String>();
+	public List<Docente> aggiungiDc() {
+		ArrayList<Docente> docenti = new ArrayList<Docente>();
 		for (int i=0; i<studenti.size(); i++) {
 			for (int j=0; j<studenti.get(i).getEsami().size(); j++) {
-				if (!(docenti.contains(studenti.get(i).getEsami().get(j).getDocente().getCognome())))
-					docenti.add(studenti.get(i).getEsami().get(j).getDocente().getCognome());
+				if (!(docenti.contains(studenti.get(i).getEsami().get(j).getDocente())))
+					docenti.add(studenti.get(i).getEsami().get(j).getDocente());
 			}
 		}
 		return docenti;
 	}
-	
+
 	// 2° supporto per il punto 5
 	public HashMap<Docente, Double> ruoloDocentiVotiAlti() {
-		ArrayList<String> docenti = new ArrayList<String>();
+		ArrayList<Docente> docenti = new ArrayList<Docente>();
 		double sommaEsami = 0.0;
 		int conta = 0;
 		Docente dc = null;
 		HashMap<Docente, Double> mapDocenti = new HashMap<>();
 		docenti.addAll(aggiungiDc());
-		for (String d: docenti) {
+		for (Docente d: docenti) {
 			sommaEsami = 0.0;
 			conta = 0;
 			for (int i=0; i<studenti.size(); i++) {
 				for (int j=0; j<studenti.get(i).getEsami().size(); j++) {
-					if (studenti.get(i).getEsami().get(j).getDocente().getCognome() == d) {
+					if (studenti.get(i).getEsami().get(j).getDocente().getCognome() == d.getCognome()) {
 						sommaEsami += studenti.get(i).getEsami().get(j).getVoto();
 						dc=studenti.get(i).getEsami().get(j).getDocente();
 						conta++;
@@ -162,52 +168,54 @@ public class GestoreUniversita {
 	}
 
 	// 5. Per ogni ruolo, il docente che mediamente eroga i voti più alti
-	public List<String> listaDocentiMediaAlta() {
+	public HashMap<RuoloDocente, List <Docente>> listaDocentiMediaAlta() {
 		HashMap<Docente, Double> mapDocenti = new HashMap<Docente, Double>();
-		mapDocenti = (HashMap<Docente, Double>) ruoloDocentiVotiAlti().clone();
-		ArrayList<String> mediAlta = new ArrayList<>();
-		ArrayList<String> ruoloDocente = new ArrayList<>();
+		mapDocenti = (HashMap<Docente, Double>) ruoloDocentiVotiAlti();
+		ArrayList<Docente> docenteMediaAlta;
+		HashMap<RuoloDocente, List<Docente>> ruoloDocente = new HashMap<RuoloDocente, List<Docente>>();
 		double voto = 0.0;
 		for (RuoloDocente rd : RuoloDocente.values()) {
-			mediAlta.clear();
+			docenteMediaAlta = new ArrayList<>();
 			voto = 0.0;
 			for (Entry<Docente, Double> entry : mapDocenti.entrySet()) {
 				if (entry.getKey().getRuolo().equals(rd) && entry.getValue() > voto) {
 					voto = entry.getValue();
-					mediAlta.clear(); 
-					mediAlta.add(entry.getKey().getRuolo()+" "+entry.getKey().getCognome() + " " + voto);
+					docenteMediaAlta.clear(); 
+					docenteMediaAlta.add(entry.getKey());
+				} else if (entry.getKey().getRuolo().equals(rd) && entry.getValue() == voto) { 
+					docenteMediaAlta.add(entry.getKey());
 				}
 			}
-			ruoloDocente.addAll(mediAlta);
+			ruoloDocente.put(rd, docenteMediaAlta);
 		}
 		return ruoloDocente;
 	}
 
 	// 6. Lista dei corsi per i quali nessuno studente ha sostenuto l'esame
-	public List<String> corsiEsamiMaiSostenuti() {
-		List<String> corsiEsami = new ArrayList<>();
+	public List<Corso> corsiEsamiMaiSostenuti() {
+		List<Corso> corsiEsami = new ArrayList<>();
 		if(studentiTuttiEsamiSostenuti().size()>0)
 			return corsiEsami;
-		boolean check = false;
+		boolean check = true;
 		for (Corso c : corsi) {
-			check = false;
+			check = true;
 			for (Studente s : studenti) {
 				for (int i=0; i<s.getEsami().size(); i++) {
 					if (s.getEsami().get(i).getNome().equals(c.getNome())) {
-						check = true;
+						check = false;
 						break;
 					}
 				}
 			}
-			if (check == false)
-				corsiEsami.add(c.getNome());
+			if (check)
+				corsiEsami.add(c);
 		}
 		return corsiEsami;
 	}
 
 	//metoto di supporto punto 7
-	public HashMap<String, Double> mediaCorso() {
-		HashMap<String,Double> mediaCorso = new HashMap<String,Double>();
+	public HashMap<Corso, Double> mediaCorso() {
+		HashMap<Corso,Double> mediaCorso = new HashMap<Corso,Double>();
 		for (Corso c : corsi) {
 			Double somma = 0.0;
 			Integer conta = 0;
@@ -220,63 +228,62 @@ public class GestoreUniversita {
 				}
 			} 
 			if (conta != 0)
-				mediaCorso.put(c.getNome(),(somma/conta));
+				mediaCorso.put(c,Double.valueOf(format.format(somma/conta)));
 			else
-				mediaCorso.put(c.getNome(), 0.0);
+				mediaCorso.put(c, 0.0);
 		}
 		return mediaCorso;
 	}
 
 	// 7. Lista dei corsi più semplici, ovvero per i quali la media voto è la più alta
-	public List<String> corsiPiuSemplici() {
-		HashMap<String, Double> mediaCorso = new HashMap<String, Double>();
-		mediaCorso = (HashMap<String, Double>) mediaCorso().clone();
-		ArrayList< String> corsiSemplici = new ArrayList<>();
-		double voto = 0.0;
-		for (Entry<String, Double> entry : mediaCorso.entrySet()) {
+	public List<Corso> corsiPiuSemplici() {
+		HashMap<Corso, Double> mediaCorso = new HashMap<Corso, Double>();
+		mediaCorso = (HashMap<Corso, Double>) mediaCorso();
+		List<Corso> corsiSemplici = new ArrayList<>();
+		Double voto = 0.0;
+		for (Entry<Corso, Double> entry : mediaCorso.entrySet()) {
 			if(entry.getValue()>voto) {
 				voto = entry.getValue();
 				corsiSemplici.clear();
-				corsiSemplici.add( entry.getKey()+" "+voto);
+				corsiSemplici.add(entry.getKey());
 			}
 			else 
 				if (entry.getValue() == voto) {
-					voto=entry.getValue();
-					corsiSemplici.add( entry.getKey()+" "+voto);
+					corsiSemplici.add( entry.getKey());
 				}
 		}
 		return corsiSemplici;
 	}
 
 	// 1° metodo di supporto punto 8
-	public List<String> aggiungiPS(Studente s) {
-		ArrayList<String> pianoDiStudi = new ArrayList<String>();
+	public List<Corso> aggiungiPS(Studente s) {
+		ArrayList<Corso> pianoDiStudi = new ArrayList<Corso>();
 		for (int i=0; i<s.getPianoDiStudi().size(); i++) {
-			pianoDiStudi.add(s.getPianoDiStudi().get(i).getNome());
+			pianoDiStudi.add(s.getPianoDiStudi().get(i));
 		}
 		return pianoDiStudi;
 	}
 
 	// 2° metodo di supporto punto 8
-	public List<String> aggiungiEsami(Studente s) {
-		ArrayList<String> esami = new ArrayList<String>();
+	public List<Corso> aggiungiEsami(Studente s) {
+		ArrayList<Corso> esami = new ArrayList<Corso>();
 		for (int i=0; i<s.getEsami().size(); i++) {
-			esami.add(s.getEsami().get(i).getNome());
+			esami.add(s.getEsami().get(i).getCorso());
 		}
 		return esami;
 	}
-
+	
 	// 8. Le matricole degli studenti a cui manca esattamente un esame, e l'esame mancante
-	public List<String> studentiUnicoEsameMancante() {
-		List<String> matricola = new ArrayList<String>();
+	public HashMap<Studente, Corso> studentiUnicoEsameMancante() {
+		HashMap<Studente, Corso> matricola = new HashMap<Studente, Corso>();
 		for (Studente s : studenti) {
-			ArrayList<String> pianoDiStudi = new ArrayList<String>();
-			ArrayList<String> esami = new ArrayList<String>();
+			ArrayList<Corso> pianoDiStudi = new ArrayList<Corso>();
+			ArrayList<Corso> esami = new ArrayList<Corso>();
 			if (s.getPianoDiStudi().size() - s.getEsami().size() == 1) { 
 				pianoDiStudi.addAll(aggiungiPS(s));
 				esami.addAll(aggiungiEsami(s));
 				pianoDiStudi.removeAll(esami);
-				matricola.add(s.getMatricola() + " " + pianoDiStudi);
+				matricola.put(s, pianoDiStudi.get(0));
 			}
 		}
 		return matricola;
