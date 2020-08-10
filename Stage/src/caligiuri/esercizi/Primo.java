@@ -10,7 +10,7 @@ public class Primo {
 	public static Scanner in = new Scanner(System.in);
 
 	public static boolean primo ( int x ) {
-		for (int i = 2; i <= Math.sqrt(x) ; i++) {
+		for (int i=2; i<=Math.sqrt(x); i++) {
 			if ( x % i == 0 ) {
 				return false;
 			}
@@ -23,14 +23,12 @@ public class Primo {
 		System.out.println("Inserisci un numero intero positivo: ");
 		int n = in.nextInt();
 		System.out.println(primo (n));
-		System.out.println("La lista dei numeri primi da 1 a " + n + " è:");
+		System.out.println("La lista dei numeri primi da 2 a " + n + " è:");
 
-		for (int i = 1; i <= n; i++) {
+		for (int i=2; i<=n; i++) {
 			if (primo(i)) {
 				System.out.println( " " + i + " ");
 			}
 		}
-
 	}
-
 }

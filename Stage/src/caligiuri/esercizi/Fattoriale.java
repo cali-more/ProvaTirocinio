@@ -26,7 +26,6 @@ public class Fattoriale {
 		int numero = sc.nextInt();
 
 		System.out.println("Il fattoriale di: " + numero + " è: " + fattoriale (numero));
-
+		sc.close();
 	}
-
 }

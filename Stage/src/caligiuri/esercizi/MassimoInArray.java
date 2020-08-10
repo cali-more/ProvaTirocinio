@@ -5,16 +5,17 @@ package caligiuri.esercizi;
 import java.util.*;
 public class MassimoInArray {
 
-	public static Scanner in=new Scanner(System.in);
+	public static Scanner in = new Scanner(System.in);
 
 	public static void scriviArray(int x[]) {
-		for (int i = 0; i < x.length; i++ ) {
+		for (int i=0; i< x.length; i++ ) {
 			System.out.print(x[i] + " ");
 		}
+		System.out.println();
 	}
 	
 	public static void leggiArray(int x[]) {
-		for (int i = 0; i < x.length; i++ ) {
+		for (int i=0; i<x.length; i++ ) {
 			x[i] = in.nextInt();
 		}
 	}
@@ -36,13 +37,9 @@ public class MassimoInArray {
 		System.out.println ("Inserisci 5 numeri interi: ");
 		leggiArray(a);
 		
-		System.out.println ("Questo e' l'array che hai inserito: ");
+		System.out.print ("Questo e' l'array che hai inserito: ");
 		scriviArray(a);
 		
 	System.out.println ("L'elemento massimo nell'array che hai inserito è: " + maxInArray(a));
-		
-		
-		
 	}
-
 }

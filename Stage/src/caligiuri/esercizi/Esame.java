@@ -21,8 +21,8 @@ public class Esame {
 			}
 			else {
 				System.out.println("Esame non Superato!");
+				s.close();
 		}
 
 	}
-
 }
